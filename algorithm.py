@@ -48,72 +48,69 @@ RANK_MAP = {
     "2": 2
 }
 
-with open('poker.txt', 'w') as f:
-    while True:
-        current_text = action_monitor_element.text
-        if current_text != previous_text:
-            body.send_keys('l')
-            time.sleep(0.5)
-            log_text = body.text
-            time.sleep(0.5)
-            body.send_keys(Keys.ESCAPE)
-            log_lines = [
-                line for line in log_text.split('-- starting hand', 1)[0].split('Session Log')[1].split('\n') if
-                    'Your hand is' in line or
-                    'posts' in line or
-                    'raises' in line or
-                    'calls' in line or
-                    'checks' in line or
-                    'bets' in line or
-                    'Flop' in line or
-                    'Turn' in line or
-                    'River' in line
-            ][::-1]
+while True:
+    current_text = action_monitor_element.text
+    if current_text != previous_text:
+        body.send_keys('l')
+        time.sleep(0.5)
+        log_text = body.text
+        time.sleep(0.5)
+        body.send_keys(Keys.ESCAPE)
+        log_lines = [
+            line for line in log_text.split('-- starting hand', 1)[0].split('Session Log')[1].split('\n') if
+                'Your hand is' in line or
+                'posts' in line or
+                'raises' in line or
+                'calls' in line or
+                'checks' in line or
+                'bets' in line or
+                'Flop' in line or
+                'Turn' in line or
+                'River' in line
+        ][::-1]
 
-            hand = ''
-            full_hand = ''
-            big_blind = 0
-            history_spot = 0
-            preflop_actions = []
-            flop_actions = ''
-            river_actions = ''
-            board = ''
+        hand = ''
+        full_hand = ''
+        big_blind = 0
+        history_spot = 0
+        preflop_actions = []
+        flop_actions = []
+        river_actions = []
+        board = ''
 
-            for line in log_lines:
-                if 'Your hand is' in line:
-                    hand = [card.strip().replace('10', 'T') for card in line.split('Your hand is ')[1].split(',')]
-                    full_hand = ''.join(sorted([f'{card[0]}{SUIT_MAP[card[-1]]}' for card in hand], key=lambda x: -RANK_MAP[x[0]]))
-                    hand = f"{full_hand[0]}{full_hand[2]}{'s' if full_hand[1] == full_hand[3] else '' if full_hand[0] == full_hand[2] else 'o'}"
+        for line in log_lines:
+            if 'Your hand is' in line:
+                hand = [card.strip().replace('10', 'T') for card in line.split('Your hand is ')[1].split(',')]
+                full_hand = ''.join(sorted([f'{card[0]}{SUIT_MAP[card[-1]]}' for card in hand], key=lambda x: -RANK_MAP[x[0]]))
+                hand = f"{full_hand[0]}{full_hand[2]}{'s' if full_hand[1] == full_hand[3] else '' if full_hand[0] == full_hand[2] else 'o'}"
 
-                elif 'posts' in line:
-                    if 'big blind' in line:
-                        big_blind = int(line.split('posts a big blind of')[1].strip())
+            elif 'posts' in line:
+                if 'big blind' in line:
+                    big_blind = int(line.split('posts a big blind of')[1].strip())
 
-                elif 'raises' in line:
-                    preflop_actions.append(f'R{min(int(line.split("raises to ")[1].strip())/big_blind, 100)}')
+            elif 'raises' in line:
+                preflop_actions.append(f'R{min(int(line.split("raises to ")[1].strip())/big_blind, 100)}')
 
-                elif 'calls' in line:
-                    preflop_actions.append(f'C')
+            elif 'calls' in line:
+                preflop_actions.append(f'C')
 
-            history_spot = len(preflop_actions)
+        history_spot = len(preflop_actions)
 
 
-            gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
+        gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
 
-            # Can't do postflop solutions yet without premium
-            if 'Flop' not in "".join(log_lines) and gto_url != last_gto_url:
-                driver_gto.get(gto_url)
+        # Can't do postflop solutions yet without premium
+        if 'Flop' not in "".join(log_lines) and gto_url != last_gto_url:
+            driver_gto.get(gto_url)
 
-                time.sleep(4)
+            time.sleep(4)
 
-                if hand and username not in log_lines[-1]:
-                    css_selector = f"#hero_{hand}"
-                    print(css_selector)
-                    driver_gto.execute_script(f"document.querySelector('{css_selector}').click();")
+            if hand and username not in log_lines[-1]:
+                css_selector = f"#hero_{hand}"
+                print(css_selector)
+                driver_gto.execute_script(f"document.querySelector('{css_selector}').click();")
 
-                last_gto_url = gto_url
+            last_gto_url = gto_url
 
-            f.write("\n".join(log_lines) + '\n\n----------------\n\n')
-            f.flush()
-            previous_text = current_text
-        time.sleep(1)
+        previous_text = current_text
+    time.sleep(1)
