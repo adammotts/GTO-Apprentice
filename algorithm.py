@@ -18,8 +18,7 @@ driver_gto.get(GTO_WIZARD_URL)
 
 username = input("Log Into Your Accounts and Enter Your Username When Ready: ")
 
-# Test
-driver_gto.get(GTO_WIZARD_URL + '&preflop_actions=R2.5')
+driver_gto.get(GTO_WIZARD_URL)
 
 body = driver_pokernow.find_element(By.TAG_NAME, 'body')
 action_monitor_element = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]')
