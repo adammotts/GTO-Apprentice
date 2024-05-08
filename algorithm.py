@@ -23,6 +23,7 @@ driver_gto.get(GTO_WIZARD_URL)
 body = driver_pokernow.find_element(By.TAG_NAME, 'body')
 action_monitor_element = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]')
 previous_text = ''
+last_gto_url = ''
 
 SUIT_MAP = {
     "♠": "s",
@@ -82,32 +83,37 @@ with open('poker.txt', 'w') as f:
                 if 'Your hand is' in line:
                     hand = [card.strip().replace('10', 'T') for card in line.split('Your hand is ')[1].split(',')]
                     full_hand = ''.join(sorted([f'{card[0]}{SUIT_MAP[card[-1]]}' for card in hand], key=lambda x: -RANK_MAP[x[0]]))
-                    hand = f"{full_hand[0]}{full_hand[2]}{'s' if full_hand[1] == full_hand[3] else 'o'}"
+                    hand = f"{full_hand[0]}{full_hand[2]}{'s' if full_hand[1] == full_hand[3] else '' if full_hand[0] == full_hand[2] else 'o'}"
 
                 elif 'posts' in line:
                     if 'big blind' in line:
                         big_blind = int(line.split('posts a big blind of')[1].strip())
 
                 elif 'raises' in line:
-                    preflop_actions.append(f'R{int(line.split("raises to ")[1].strip())/big_blind}')
+                    preflop_actions.append(f'R{min(int(line.split("raises to ")[1].strip())/big_blind, 100)}')
 
                 elif 'calls' in line:
                     preflop_actions.append(f'C')
 
             history_spot = len(preflop_actions)
 
+
+            gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
+
             # Can't do postflop solutions yet without premium
-            if 'Flop' not in "".join(log_lines):
-                gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
+            if 'Flop' not in "".join(log_lines) and gto_url != last_gto_url:
                 driver_gto.get(gto_url)
 
-                time.sleep(2)
+                time.sleep(4)
 
-                css_selector = f"#hero_{hand}"
-                print(css_selector)
-                driver_gto.execute_script(f"document.querySelector('{css_selector}').click();")
+                if hand and username not in log_lines[-1]:
+                    css_selector = f"#hero_{hand}"
+                    print(css_selector)
+                    driver_gto.execute_script(f"document.querySelector('{css_selector}').click();")
+
+                last_gto_url = gto_url
 
             f.write("\n".join(log_lines) + '\n\n----------------\n\n')
             f.flush()
             previous_text = current_text
-        time.sleep(2)
+        time.sleep(1)

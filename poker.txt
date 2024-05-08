@@ -1,42 +1,462 @@
-Your hand is 10♣, 8♦
+Your hand is 3♣, Q♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 6♦, 8♠
 bldm posts a small blind of 10
 typeshit posts a big blind of 20
 
 ----------------
 
-Your hand is Q♠, K♦
-typeshit posts a small blind of 10
-bldm posts a big blind of 20
-
-----------------
-
-Your hand is Q♠, K♦
-typeshit posts a small blind of 10
-bldm posts a big blind of 20
-
-----------------
-
-Your hand is Q♠, K♦
-typeshit posts a small blind of 10
-bldm posts a big blind of 20
-
-----------------
-
-Your hand is 7♦, J♥
+Your hand is 6♦, 8♠
 bldm posts a small blind of 10
 typeshit posts a big blind of 20
 
 ----------------
 
-Your hand is 7♦, J♥
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+
+----------------
+
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+
+----------------
+
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+typeshit calls 50
+
+----------------
+
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+typeshit calls 50
+Flop: [K♥, 10♥, J♣]
+
+----------------
+
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+typeshit calls 50
+Flop: [K♥, 10♥, J♣]
+
+----------------
+
+Your hand is 6♦, 8♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+typeshit calls 50
+Flop: [K♥, 10♥, J♣]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+Turn: 2♠, 8♠, 6♥ [10♣]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+Turn: 2♠, 8♠, 6♥ [10♣]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+Turn: 2♠, 8♠, 6♥ [10♣]
+River: 2♠, 8♠, 6♥, 10♣ [4♥]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+Turn: 2♠, 8♠, 6♥ [10♣]
+River: 2♠, 8♠, 6♥, 10♣ [4♥]
+
+----------------
+
+Your hand is K♦, A♠
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit raises to 480
+bldm raises to 215790
+typeshit calls 215790 and go all in
+Flop: [2♠, 8♠, 6♥]
+Turn: 2♠, 8♠, 6♥ [10♣]
+River: 2♠, 8♠, 6♥, 10♣ [4♥]
+
+----------------
+
+Your hand is Q♠, 3♥
 bldm posts a small blind of 10
 typeshit posts a big blind of 20
 
 ----------------
 
-Your hand is 8♠, 9♠
+Your hand is Q♠, 3♥
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is Q♠, 3♥
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is Q♠, 3♥
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is 5♠, J♥
 typeshit posts a small blind of 10
 bldm posts a big blind of 20
+
+----------------
+
+Your hand is 5♠, J♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 5♠, J♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 5♠, J♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 52
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 52
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 52
+
+----------------
+
+Your hand is J♥, 9♣
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 52
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 6♣, 7♥
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 9♣, 4♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+
+----------------
+
+Your hand is 9♣, 4♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+
+----------------
+
+Your hand is 9♣, 4♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+
+----------------
+
+Your hand is 9♣, 4♠
+bldm posts a small blind of 10
+typeshit posts a big blind of 20
+bldm raises to 50
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit calls 200
+Flop: [A♦, A♣, 4♠]
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit calls 200
+Flop: [A♦, A♣, 4♠]
+
+----------------
+
+Your hand is 4♦, K♦
+typeshit posts a small blind of 10
+bldm posts a big blind of 20
+typeshit raises to 50
+bldm raises to 200
+typeshit calls 200
+Flop: [A♦, A♣, 4♠]
 
 ----------------
 
