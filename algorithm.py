@@ -99,7 +99,7 @@ while True:
 
         gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
 
-        # Can't do postflop solutions yet without premium
+        # Can't do postflop solutions yet without premium?
         if 'Flop' not in "".join(log_lines) and gto_url != last_gto_url:
             driver_gto.get(gto_url)
 
