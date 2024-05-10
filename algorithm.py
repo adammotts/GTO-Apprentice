@@ -167,7 +167,11 @@ while True:
                     }})();
                 '''
 
-                stats = driver_gto.execute_script(extract_stats_script)
+                try:
+                    stats = driver_gto.execute_script(extract_stats_script)
+
+                except:
+                    continue
 
                 print(stats)
 
