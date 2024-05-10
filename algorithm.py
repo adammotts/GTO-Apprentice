@@ -190,24 +190,28 @@ while True:
                 print(f'{full_hand}')
                 print(f'{selected_action} {selected_amount}')
 
-                if selected_action == "Allin":
-                    body.send_keys('r')
-                    time.sleep(0.5)
-                    input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
-                    all_in_amount = stack_size / big_blind_amount
-                    input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{all_in_amount:.2f}\n')
+                try:
+                    if selected_action == "Allin":
+                        body.send_keys('r')
+                        time.sleep(0.5)
+                        input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
+                        all_in_amount = stack_size / big_blind_amount
+                        input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{all_in_amount:.2f}\n')
 
-                elif selected_action == "Raise":
-                    body.send_keys('r')
-                    time.sleep(0.5)
-                    input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
-                    input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{selected_amount:.2f}\n')
+                    elif selected_action == "Raise":
+                        body.send_keys('r')
+                        time.sleep(0.5)
+                        input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
+                        input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{selected_amount:.2f}\n')
 
-                elif selected_action == "Call":
-                    body.send_keys('c')
+                    elif selected_action == "Call":
+                        body.send_keys('c')
 
-                elif selected_action == "Fold":
-                    body.send_keys('f')
+                    elif selected_action == "Fold":
+                        body.send_keys('f')
+
+                except:
+                    pass
 
             last_gto_url = gto_url
 
