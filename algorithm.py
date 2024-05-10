@@ -186,6 +186,7 @@ while True:
                         selected_amount = stats[selected_action]['amount']
                         break
 
+                print(f'{preflop_actions}')
                 print(f'{full_hand}')
                 print(f'{selected_action} {selected_amount}')
 
