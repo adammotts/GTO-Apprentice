@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
 import time
+import random
+import re
 
 CHROME_DRIVER_PATH = "/Users/ma/Desktop/chromedriver-mac-x64/chromedriver"
 POKERNOW_URL = "https://www.pokernow.club/games/pgl9iiD1zJai2oQ2wWedG_zIj"
@@ -21,7 +23,13 @@ username = input("Log Into Your Accounts and Enter Your Username When Ready: ")
 driver_gto.get(GTO_WIZARD_URL)
 
 body = driver_pokernow.find_element(By.TAG_NAME, 'body')
+
+# Enable big blind mode
+body.send_keys('b')
+
+# Monitor the screen for changes in CSS (to indicate change of action)
 action_monitor_element = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]')
+
 previous_text = ''
 last_gto_url = ''
 
@@ -56,8 +64,10 @@ while True:
         log_text = body.text
         time.sleep(0.5)
         body.send_keys(Keys.ESCAPE)
+
         log_lines = [
-            line for line in log_text.split('-- starting hand', 1)[0].split('Session Log')[1].split('\n') if
+            line for line in log_text.split('-- starting hand', 1)[0].split('Session Log')[-1].split('\n') if
+                'Player stacks' in line or
                 'Your hand is' in line or
                 'posts' in line or
                 'raises' in line or
@@ -71,6 +81,7 @@ while True:
                 """
         ][::-1]
 
+        stack_size = 0
         hand = ''
         full_hand = ''
         big_blind_amount = 0
@@ -83,7 +94,10 @@ while True:
         """
 
         for line in log_lines:
-            if 'Your hand is' in line:
+            if 'Player stacks' in line:
+                stack_size = re.search(r'bldm \((\d+)\)', line).group(1)
+
+            elif 'Your hand is' in line:
                 hand = [card.strip().replace('10', 'T') for card in line.split('Your hand is ')[1].split(',')]
                 full_hand = ''.join(sorted([f'{card[0]}{SUIT_MAP[card[-1]]}' for card in hand], key=lambda x: -RANK_MAP[x[0]]))
                 hand = f"{full_hand[0]}{full_hand[2]}{'s' if full_hand[1] == full_hand[3] else '' if full_hand[0] == full_hand[2] else 'o'}"
@@ -109,12 +123,8 @@ while True:
 
             time.sleep(4)
 
+            # Only take action when it's your turn
             if hand and username not in log_lines[-1]:
-                '''
-                driver_gto.execute_script(f"document.querySelector('#hero_{hand}').click();")
-
-                time.sleep(2)
-                '''
                 extract_stats_script = f'''
                     return (function() {{
                         function waitForElementAndReturnData() {{
@@ -161,7 +171,47 @@ while True:
 
                 print(stats)
 
+                cumulative_probability = 0
+                action_probabilities = []
+                for action, details in stats.items():
+                    if details['percentage'] > 0:
+                        cumulative_probability += details['percentage']
+                        action_probabilities.append((cumulative_probability, action))
+
+                random_number = random.uniform(0, 100)
+                selected_action = None
+                for threshold, action in action_probabilities:
+                    if random_number <= threshold:
+                        selected_action = action
+                        selected_amount = stats[selected_action]['amount']
+                        break
+
+                print(f'{full_hand}')
+                print(f'{selected_action} {selected_amount}')
+
+                if selected_action == "Allin":
+                    body.send_keys('r')
+                    time.sleep(0.5)
+                    input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
+                    all_in_amount = stack_size / big_blind_amount
+                    input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{all_in_amount:.2f}\n')
+
+                elif selected_action == "Raise":
+                    body.send_keys('r')
+                    time.sleep(0.5)
+                    input_field = driver_pokernow.find_element(By.XPATH, '/html/body/div/div/div[1]/div[3]/div[7]/form/div[1]/div/input')
+                    input_field.send_keys(f'{Keys.BACKSPACE}{Keys.BACKSPACE}{Keys.BACKSPACE}{selected_amount:.2f}\n')
+
+                elif selected_action == "Call":
+                    body.send_keys('c')
+
+                elif selected_action == "Fold":
+                    body.send_keys('f')
+
             last_gto_url = gto_url
 
+            time.sleep(1)
+
         previous_text = current_text
+
     time.sleep(1)
