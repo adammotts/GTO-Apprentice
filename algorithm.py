@@ -63,20 +63,24 @@ while True:
                 'raises' in line or
                 'calls' in line or
                 'checks' in line or
+                """
                 'bets' in line or
                 'Flop' in line or
                 'Turn' in line or
                 'River' in line
+                """
         ][::-1]
 
         hand = ''
         full_hand = ''
-        big_blind = 0
+        big_blind_amount = 0
         history_spot = 0
         preflop_actions = []
+        """
         flop_actions = []
         river_actions = []
         board = ''
+        """
 
         for line in log_lines:
             if 'Your hand is' in line:
@@ -86,10 +90,10 @@ while True:
 
             elif 'posts' in line:
                 if 'big blind' in line:
-                    big_blind = int(line.split('posts a big blind of')[1].strip())
+                    big_blind_amount = int(line.split('posts a big blind of')[1].strip())
 
             elif 'raises' in line:
-                preflop_actions.append(f'R{min(int(line.split("raises to ")[1].strip())/big_blind, 100)}')
+                preflop_actions.append(f'R{min(int(line.split("raises to ")[1].strip())/big_blind_amount, 100)}')
 
             elif 'calls' in line:
                 preflop_actions.append(f'C')
@@ -99,16 +103,63 @@ while True:
 
         gto_url = f'{GTO_WIZARD_URL}&history_spot={history_spot}&preflop_actions={"-".join(preflop_actions)}'
 
-        # Can't do postflop solutions yet without premium?
+        # Can't do postflop solutions without premium
         if 'Flop' not in "".join(log_lines) and gto_url != last_gto_url:
             driver_gto.get(gto_url)
 
             time.sleep(4)
 
             if hand and username not in log_lines[-1]:
-                css_selector = f"#hero_{hand}"
-                print(css_selector)
-                driver_gto.execute_script(f"document.querySelector('{css_selector}').click();")
+                '''
+                driver_gto.execute_script(f"document.querySelector('#hero_{hand}').click();")
+
+                time.sleep(2)
+                '''
+                extract_stats_script = f'''
+                    return (function() {{
+                        function waitForElementAndReturnData() {{
+                            var checkCondition = function(resolve) {{
+                                var container = document.querySelector('#hero_{hand} > div.rtc_graph_legend.no-scroll-track');
+                                if (container && container.children.length > 0) {{
+                                    var map = {{}};
+                                    var children = container.children;
+                                    for (var i = 0; i < children.length; i++) {{
+                                        var keySpan = children[i].querySelector('span:nth-child(1)');
+                                        var valueSpan = children[i].querySelector('span:nth-child(2)');
+                                        if (keySpan && valueSpan) {{
+                                            var key = keySpan.textContent.trim();
+                                            var value = valueSpan.textContent.trim();
+
+                                            var parts = key.split(' ');
+                                            var lastPart = parts[parts.length - 1];
+                                            var numericValue = parseFloat(lastPart);
+
+                                            if (parts.length > 1) {{
+                                                key = parts.slice(0, -1).join(' ');
+                                            }}
+
+                                            value = {{'amount': numericValue, 'percentage': parseFloat(value)}};
+                                            map[key] = value;
+                                        }}
+                                    }}
+                                    resolve(map);
+                                }} else {{
+                                    setTimeout(function() {{ checkCondition(resolve); }}, 100);
+                                }}
+                            }};
+
+                            return new Promise(checkCondition);
+                        }}
+
+                        document.querySelector('#hero_{hand}').click();
+
+                        return waitForElementAndReturnData();
+                    }})();
+                '''
+
+                stats = driver_gto.execute_script(extract_stats_script)
+
+                print(stats)
 
             last_gto_url = gto_url
 
