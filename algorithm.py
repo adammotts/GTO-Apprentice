@@ -95,7 +95,7 @@ while True:
 
         for line in log_lines:
             if 'Player stacks' in line:
-                stack_size = re.search(r'bldm \((\d+)\)', line).group(1)
+                stack_size = re.search(rf'{username} \((\d+)\)', line).group(1)
 
             elif 'Your hand is' in line:
                 hand = [card.strip().replace('10', 'T') for card in line.split('Your hand is ')[1].split(',')]
