@@ -6,7 +6,7 @@ import time
 import random
 import re
 
-CHROME_DRIVER_PATH = "/Users/ma/Desktop/chromedriver-mac-x64/chromedriver"
+CHROME_DRIVER_PATH = "/Users/ma/Documents/chromedriver-mac-x64/chromedriver"
 POKERNOW_URL = "https://www.pokernow.club/games/pgl9iiD1zJai2oQ2wWedG_zIj"
 GTO_WIZARD_URL = "https://app.gtowizard.com/solutions?solution_type=gwiz&gmfs_solution_tab=ai_sols&gametype=CashHu500zSimple&depth=100&gmfft_sort_key=0&gmfft_sort_order=desc"
 
