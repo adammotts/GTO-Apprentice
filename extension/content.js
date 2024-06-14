@@ -11,20 +11,21 @@ const fetchLog = async (pokernowUrl) => {
 
         const filteredLogs = [];
         for (const log of data.logs) {
-            filteredLogs.push(log);
             if (log.msg.includes("starting hand")) {
                 break;
             }
+
+            filteredLogs.push(log);
         }
         
-        return filteredLogs;
+        return filteredLogs.reverse();
     } catch (error) {
         console.error('Error fetching log:', error);
         return null;
     }
 };
 
-const convertHand = (logMessage) => {
+const getHand = (logMessage) => {
     const handRegex = /Your hand is (\d{1,2}|[JQKA])([♠♣♥♦]), (\d{1,2}|[JQKA])([♠♣♥♦])/;
     const match = logMessage.match(handRegex);
 
@@ -63,6 +64,20 @@ const convertHand = (logMessage) => {
     return handString;
 };
 
+const getBigBlindAmount = (logMessage) => {
+    const bigBlindRegex = /big blind of (\d+)/;
+    const match = logMessage.match(bigBlindRegex);
+
+    return match[1];
+}
+
+const getRaiseAmount = (logMessage) => {
+    const raiseRegex = /raises to (\d+)/;
+    const match = logMessage.match(raiseRegex);
+
+    return match[1];
+}
+
 // Observe whether or not it's my turn
 const turnObserver = new MutationObserver((mutations) => {
     mutations.forEach(async (mutation) => {
@@ -74,14 +89,35 @@ const turnObserver = new MutationObserver((mutations) => {
                     console.log('Returned log data:', logs);
 
                     let hand = null;
+                    let bigBlindAmount = null;
+                    let preflopActions = [];
 
                     for (const log of logs) {
                         logMessage = log.msg;
+                        
+                        // For getting hole cards
                         if (logMessage.includes("Your hand is")) {
-                            hand = convertHand(logMessage);
-                            console.log('Hand:', hand);
+                            hand = getHand(logMessage);
+                        }
+
+                        // For getting big blind amount
+                        if (logMessage.includes("big blind of")) {
+                            bigBlindAmount = getBigBlindAmount(logMessage);
+                        }
+
+                        // For getting preflop actions
+                        if (logMessage.includes("raises to")) {
+                            preflopActions.push(`R${getRaiseAmount(logMessage) / bigBlindAmount}`);
+                        }
+
+                        if (logMessage.includes("calls")) {
+                            preflopActions.push('C');
                         }
                     }
+
+                    console.log('Hand:', hand);
+                    console.log("Big blind amount:", bigBlindAmount);
+                    console.log('Preflop actions:', preflopActions);
                 }
             });
         }
