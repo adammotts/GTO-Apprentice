@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "PokerNow Game Monitor",
+    "version": "1.0",
+    "description": "Monitor your PokerNow game and scrape hole cards when it's your turn.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.pokernow.club/*"],
+            "js": ["content.js"]
+        }
+    ],
+    "icons": {
+        "48": "icon.png",
+        "128": "icon.png"
+    }
+}
