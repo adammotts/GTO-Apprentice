@@ -1,52 +1,87 @@
-// Open the Log
-function clickLogButton() {
-    const logButton = document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.aux-chat-bottom-buttons-ctn > div > button");
-    if (logButton) {
-        logButton.click();
-        console.log('Clicked log button!');
-        setupLogObserver();
-    } else {
-        console.log('Log button not found.');
-    }
-}
-
-// Function to set up an observer for the log modal
-function setupLogObserver() {
-    const logModal = document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.modal-overlay");
-
-    if (logModal) {
-        console.log("Log is open.")
-        setTimeout(findLogEntry, 500);
-    } else {
-        console.log('Log modal not found.');
-    }
-}
-
-// Function to find the desired log entry
-function findLogEntry() {
-    const entriesContainer = document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.modal-overlay > div > div.modal-body > div.log-modal-body > div.log-modal-entries");
-    if (entriesContainer) {
-        const entries = entriesContainer.querySelectorAll("div.entry-ctn");
-        for (let entry of entries) {
-            if (entry.classList.contains("start-game")) {
-                console.log("Found 'start-game entry-ctn':", entry);
-                return;
-            }
-            console.log(entry);
+// Function to fetch the log from the given URL
+const fetchLog = async (pokernowUrl) => {
+    const logUrl = `${pokernowUrl}/log`;
+    console.log('Fetching log:', logUrl);
+    try {
+        const response = await fetch(logUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    } else {
-        console.log("Log entries container not found.");
+        const data = await response.json();
+
+        const filteredLogs = [];
+        for (const log of data.logs) {
+            filteredLogs.push(log);
+            if (log.msg.includes("starting hand")) {
+                break;
+            }
+        }
+        
+        return filteredLogs;
+    } catch (error) {
+        console.error('Error fetching log:', error);
+        return null;
     }
-}
+};
+
+const convertHand = (logMessage) => {
+    const handRegex = /Your hand is (\d{1,2}|[JQKA])([♠♣♥♦]), (\d{1,2}|[JQKA])([♠♣♥♦])/;
+    const match = logMessage.match(handRegex);
+
+    let card1Rank = match[1];
+    let card1Suit = match[2];
+    let card2Rank = match[3];
+    let card2Suit = match[4];
+
+    const rankToString = (rank) => {
+        if (rank === '10') {
+            return 'T';
+        }
+        return rank;
+    };
+
+    const rankOrder = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
+
+    let highRank, lowRank;
+    if (rankOrder.indexOf(rankToString(card1Rank)) > rankOrder.indexOf(rankToString(card2Rank))) {
+        highRank = card1Rank;
+        lowRank = card2Rank;
+    } else {
+        highRank = card2Rank;
+        lowRank = card1Rank;
+    }
+
+    // Determine suited or offsuit
+    let suited = '';
+    if (card1Rank !== card2Rank) {
+        suited = card1Suit === card2Suit ? 's' : 'o';
+    }
+
+    // Construct the final hand string
+    const handString = `${rankToString(highRank)}${rankToString(lowRank)}${suited}`;
+
+    return handString;
+};
 
 // Observe whether or not it's my turn
 const turnObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
+    mutations.forEach(async (mutation) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            mutation.addedNodes.forEach((node) => {
+            mutation.addedNodes.forEach(async (node) => {
                 const decisionElement = document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > p");
                 if (decisionElement) {
-                    clickLogButton();
+                    const logs = await fetchLog(window.location.href);
+                    console.log('Returned log data:', logs);
+
+                    let hand = null;
+
+                    for (const log of logs) {
+                        logMessage = log.msg;
+                        if (logMessage.includes("Your hand is")) {
+                            hand = convertHand(logMessage);
+                            console.log('Hand:', hand);
+                        }
+                    }
                 }
             });
         }
