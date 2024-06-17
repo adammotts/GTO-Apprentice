@@ -39,7 +39,9 @@ def get_solution():
     data = request.get_json()
     preflop_actions = data['preflop_actions']
     hand = data['hand']
-    driver.get(f"https://app.gtowizard.com/solutions?solution_type=gwiz&gmfs_solution_tab=ai_sols&gametype=CashHu500zSimple&depth=100&gmff_depth=100&gmfft_sort_key=0&gmfft_sort_order=desc&preflop_actions={preflop_actions}&history_spot={len(preflop_actions)}")
+    driver.get(f"https://app.gtowizard.com/solutions?solution_type=gwiz&gmfs_solution_tab=ai_sols&gametype=CashHu500zSimple&depth=100&gmff_depth=100&gmfft_sort_key=0&gmfft_sort_order=desc&preflop_actions={'-'.join(preflop_actions)}&history_spot={len(preflop_actions)}")
+
+    print(f"https://app.gtowizard.com/solutions?solution_type=gwiz&gmfs_solution_tab=ai_sols&gametype=CashHu500zSimple&depth=100&gmff_depth=100&gmfft_sort_key=0&gmfft_sort_order=desc&preflop_actions={'-'.join(preflop_actions)}&history_spot={len(preflop_actions)}")
 
     time.sleep(5)
 

@@ -179,12 +179,15 @@ const turnObserver = new MutationObserver((mutations) => {
                                 }
                                 
                                 document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.action-buttons > input").click()
+                                break;
 
                             case 'Call':
                                 document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.call.with-tip.call.green").click()
+                                break;
 
                             case 'Fold':
                                 document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.with-tip.fold.red").click()
+                                break;
                         }
                     }
                 }
