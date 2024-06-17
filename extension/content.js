@@ -78,6 +78,37 @@ const getRaiseAmount = (logMessage) => {
     return match[1];
 }
 
+async function getSolution(preflopActions, hand) {
+    const url = 'http://127.0.0.1:5000/get_solution';
+    const payload = {
+        preflop_actions: preflopActions,
+        hand: hand
+    };
+
+    console.log("Sending Payload:", payload);
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log('Solution fetched successfully:', data);
+        return data;
+    } catch (error) {
+        console.error('Error fetching solution:', error);
+        throw error;
+    }
+}
+
 // Observe whether or not it's my turn
 const turnObserver = new MutationObserver((mutations) => {
     mutations.forEach(async (mutation) => {
@@ -86,7 +117,7 @@ const turnObserver = new MutationObserver((mutations) => {
                 const decisionElement = document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > p");
                 if (decisionElement) {
                     const logs = await fetchLog(window.location.href);
-                    console.log('Returned log data:', logs);
+                    //console.log('Returned log data:', logs);
 
                     let hand = null;
                     let bigBlindAmount = null;
@@ -115,9 +146,47 @@ const turnObserver = new MutationObserver((mutations) => {
                         }
                     }
 
-                    console.log('Hand:', hand);
-                    console.log("Big blind amount:", bigBlindAmount);
-                    console.log('Preflop actions:', preflopActions);
+                    console.log("Preflop Actions:", preflopActions)
+                    console.log("Hand:", hand)
+
+                    solution = await getSolution(preflopActions, hand);
+
+                    if (solution['message'] == 'Solution retrieved successfully') {
+                        selectedAction = solution['selected_action']
+                        selectedAmount = solution['selected_amount']
+
+                        switch (selectedAction) {
+                            case 'Allin':
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.with-tip.raise.green").click()
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.raise-controller > div.default-bet-buttons > button:nth-child(5)").click()
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.action-buttons > input").click()
+                                break;
+
+                            case 'Raise': // This is really hard to make work
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.with-tip.raise.green").click()
+                                
+                                if (selectedAmount == 2.50) {
+                                    document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.raise-controller > div.default-bet-buttons > button:nth-child(3)").click()
+                                }
+                                
+                                else {
+                                    for (let i = 0; i < 100; i++) {
+                                        document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.raise-controller > div.slider > button.control-button.decrease").click()
+                                    }
+                                    for (let i = 0; i < selectedAmount; i++) {
+                                        document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.raise-controller > div.slider > button.control-button.increase").click()
+                                    }
+                                }
+                                
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > form > div.action-buttons > input").click()
+
+                            case 'Call':
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.call.with-tip.call.green").click()
+
+                            case 'Fold':
+                                document.querySelector("#canvas > div.game-column > div.game-main-container.four-color > div.game-decisions-ctn > div > button.button-1.with-tip.fold.red").click()
+                        }
+                    }
                 }
             });
         }
